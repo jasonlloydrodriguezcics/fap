@@ -1,6 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+    <!-- Derby Database Connection -->
+    <context-param>
+        <param-name>derbyJdbcClassName</param-name>
+        <param-value>org.apache.derby.jdbc.ClientDriver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyDbUserName</param-name>
+        <param-value>app</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyDbPassword</param-name>
+        <param-value>app</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyJdbcDriverURL</param-name>
+        <param-value>jdbc:derby</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyDbHostName</param-name>
+        <param-value>localhost</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyDbPort</param-name>
+        <param-value>1527</param-value>
+    </context-param>
+    <context-param>
+        <param-name>derbyDatabaseName</param-name>
+        <param-value>UserDB</param-value>
+    </context-param>
+    
+    <!-- MySQL Database Connection -->
+    <context-param>
+        <param-name>mysqlJdbcClassName</param-name>
+        <param-value>com.mysql.cj.jdbc.Driver</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlDbUserName</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlDbPassword</param-name>
+        <param-value>root</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlJdbcDriverURL</param-name>
+        <param-value>jdbc:mysql</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlDbHostName</param-name>
+        <param-value>localhost</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlDbPort</param-name>
+        <param-value>3306</param-value>
+    </context-param>
+    <context-param>
+        <param-name>mysqlDatabaseName</param-name>
+        <param-value>mysql</param-value>
+    </context-param>
     <session-config>
         <session-timeout>
             30
