@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
         if (requestPass.equals(record.getPass())) {
             // passed every test
             System.out.println("redirect me");
-            
+            //redirect sa StudentDetailServlet?
             session.setAttribute("current", record);
         } else {
             // invalid password ka bro
