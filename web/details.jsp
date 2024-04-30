@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Active Learning</title>
+    <title>Details - Active Learning</title>
 </head>
 
 <body>
@@ -23,7 +23,7 @@
         <a href="">Login</a>
     </nav>
     <main>
-        <p>content here</p>
+        <p>content</p>
     </main>
     <footer>
         <p>ACTIVE LEARNING 8=D</p>

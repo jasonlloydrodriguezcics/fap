@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - Active Learning</title>
+    <title>Captcha - Active Learning</title>
 </head>
 
 <body>
@@ -23,7 +23,14 @@
         <a href="">Login</a>
     </nav>
     <main>
-        <p>content here</p>
+        <p>LOGO MALAKING SQUARE</p>
+        <div class="card">
+            <form action="captcha">
+                <p class="captcha-display">CAPTCHA SECRET</p>
+                <input class="captcha-input" type="password" name="pass" id="pass">
+                <input class="button" type="submit" value="Submit">
+            </form>
+        </div>
     </main>
     <footer>
         <p>ACTIVE LEARNING 8=D</p>
