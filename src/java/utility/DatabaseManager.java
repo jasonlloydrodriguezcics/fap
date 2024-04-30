@@ -13,12 +13,15 @@ import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import record.LoginRecord;
 import record.StudentRecord;
+import record.CourseRecord;
 
 public class DatabaseManager {
 
     private static final String GET_ALL_LOGIN_RECORDS = "SELECT * FROM USER_INFO";
     private static final String GET_LOGIN_RECORD = "SELECT * FROM USER_INFO WHERE USERNAME = ?";
     private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM STUDENTCREDENTIAL";
+    private static final String GET_ALL_COURSES = "SELECT * FROM COURSE";
+    private static final String GET_COURSE_RECORD = "SELECT * FROM COURSE WHERE USERNAME = ?";
     private static final String GET_STUDENT_RECORD = "SELECT * FROM STUDENTCREDENTIAL WHERE USERNAME = ?";
     private static final String ENCRYPT_LOGIN_PASSWORD = "UPDATE USER_INFO SET PASSWORD = ?, IS_ENCRYPTED = TRUE WHERE USERNAME = ?";
 
@@ -163,5 +166,44 @@ public class DatabaseManager {
         }
 
         return record;
+    }
+    
+    public static ArrayList<CourseRecord> getCourseList(ServletContext context) {
+        ArrayList<CourseRecord> courseList = new ArrayList<>();
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(GET_ALL_COURSES);
+
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                courseList.add(new CourseRecord(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return courseList;
+    }
+    
+    public static ArrayList<CourseRecord> getCourseRecord(ServletContext context, String key) {
+        ArrayList<CourseRecord> courseList = new ArrayList<>();
+
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_COURSE_RECORD, 1004, 1007);
+            preparedStatement.setString(1, key);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                courseList.add(new CourseRecord(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        return courseList;
     }
 }

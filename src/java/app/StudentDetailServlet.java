@@ -12,14 +12,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import record.CourseRecord;
 import record.LoginRecord;
 import record.StudentRecord;
 import utility.DatabaseManager;
 
-/**
- *
- * @author charm
- */
 @WebServlet(name = "StudentDetailServlet", urlPatterns = {"/StudentDetailServlet"})
 public class StudentDetailServlet extends HttpServlet {
 
@@ -37,11 +34,17 @@ public class StudentDetailServlet extends HttpServlet {
         LoginRecord record = (LoginRecord) session.getAttribute("current");
         
         if (record.getRole().equalsIgnoreCase("admin")) {
-            ArrayList<StudentRecord> studentRecords = DatabaseManager.getAllStudentRecords(context);
+            ArrayList<StudentRecord> studentRecord = DatabaseManager.getAllStudentRecords(context);
+            ArrayList<CourseRecord> courseList = DatabaseManager.getCourseList(context);
+            session.setAttribute("studentRecord", studentRecord);
+            session.setAttribute("courseList", courseList);
         }
         
         else if(record.getRole().equalsIgnoreCase("student")) {
             StudentRecord studentRecord = DatabaseManager.getStudentRecord(context, record.getUser());
+            ArrayList<CourseRecord> courseList = DatabaseManager.getCourseRecord(context, record.getUser());
+            session.setAttribute("studentRecord", studentRecord);
+            session.setAttribute("courseList", courseList);
         }
          
         System.out.println("Send to Homepage");
