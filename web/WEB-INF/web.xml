@@ -7,7 +7,7 @@
         <param-value>org.apache.derby.jdbc.ClientDriver</param-value>
     </context-param>
     <context-param>
-        <param-name>derbyDbUserName</param-name>
+        <param-name>derbyDbUsername</param-name>
         <param-value>app</param-value>
     </context-param>
     <context-param>
@@ -15,20 +15,8 @@
         <param-value>app</param-value>
     </context-param>
     <context-param>
-        <param-name>derbyJdbcDriverURL</param-name>
-        <param-value>jdbc:derby</param-value>
-    </context-param>
-    <context-param>
-        <param-name>derbyDbHostName</param-name>
-        <param-value>localhost</param-value>
-    </context-param>
-    <context-param>
-        <param-name>derbyDbPort</param-name>
-        <param-value>1527</param-value>
-    </context-param>
-    <context-param>
-        <param-name>derbyDatabaseName</param-name>
-        <param-value>UserDB</param-value>
+        <param-name>derbyJdbcDriverUrl</param-name>
+        <param-value>jdbc:derby://localhost:1527/UserDB</param-value>
     </context-param>
     
     <!-- MySQL Database Connection -->
@@ -37,7 +25,7 @@
         <param-value>com.mysql.cj.jdbc.Driver</param-value>
     </context-param>
     <context-param>
-        <param-name>mysqlDbUserName</param-name>
+        <param-name>mysqlDbUsername</param-name>
         <param-value>root</param-value>
     </context-param>
     <context-param>
@@ -45,21 +33,29 @@
         <param-value>root</param-value>
     </context-param>
     <context-param>
-        <param-name>mysqlJdbcDriverURL</param-name>
-        <param-value>jdbc:mysql</param-value>
+        <param-name>mysqlJdbcDriverUrl</param-name>
+        <param-value>jdbc:mysql://localhost:3306/mysql</param-value>
+    </context-param>
+    
+    <!-- Encryption -->
+    <context-param>
+        <param-name>cipher</param-name>
+        <param-value>AES</param-value>
     </context-param>
     <context-param>
-        <param-name>mysqlDbHostName</param-name>
-        <param-value>localhost</param-value>
+        <param-name>key</param-name>
+        <param-value>2CSE_FAP_GROUP_6</param-value>
     </context-param>
-    <context-param>
-        <param-name>mysqlDbPort</param-name>
-        <param-value>3306</param-value>
-    </context-param>
-    <context-param>
-        <param-name>mysqlDatabaseName</param-name>
-        <param-value>mysql</param-value>
-    </context-param>
+    
+    <!-- Servlets -->
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>app.LoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30

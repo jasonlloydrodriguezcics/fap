@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import record.LoginRecord;
-import utility.Connector;
 import utility.Cryptographer;
+import utility.DatabaseManager;
 
 public class LoginServlet extends HttpServlet {
 
@@ -22,6 +22,7 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.context = config.getServletContext();
+        DatabaseManager.encryptAllLoginPasswords(context);
     }
 
     @Override
@@ -30,7 +31,7 @@ public class LoginServlet extends HttpServlet {
         String requestUser = request.getParameter("user");
         String requestPass = request.getParameter("pass");
 
-        LoginRecord record = Connector.getLoginRecord(this.context, requestUser);
+        LoginRecord record = DatabaseManager.getLoginRecord(this.context, requestUser);
 
         HttpSession session = request.getSession(true);
 
@@ -40,6 +41,7 @@ public class LoginServlet extends HttpServlet {
 
         if (record == null) {
             // user not found or some shit
+            System.out.println("couldnt find account");
             return;
         }
 
@@ -51,9 +53,11 @@ public class LoginServlet extends HttpServlet {
 
         if (requestPass.equals(record.getPass())) {
             // passed every test
+            System.out.println("redirect me");
             session.setAttribute("current", record);
         } else {
             // invalid password ka bro
+            System.out.println("failed");
         }
     }
 

@@ -24,7 +24,7 @@ public class LoginRecord {
         this.role = resultSet.getString("ROLE");
         this.isEncrypted = resultSet.getBoolean("IS_ENCRYPTED");
     }
-    
+
     public String getUser() {
         return this.user;
     }
@@ -39,14 +39,6 @@ public class LoginRecord {
 
     public boolean getEncrypted() {
         return this.isEncrypted;
-    }
-
-    public void setPass(String pass) {
-        this.pass = pass;
-    }
-
-    public void setEncrypted(boolean isEncrypted) {
-        this.isEncrypted = isEncrypted;
     }
 
     @Override
