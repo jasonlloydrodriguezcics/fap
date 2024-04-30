@@ -12,11 +12,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletContext;
 import record.LoginRecord;
+import record.StudentRecord;
 
 public class DatabaseManager {
 
     private static final String GET_ALL_LOGIN_RECORDS = "SELECT * FROM USER_INFO";
     private static final String GET_LOGIN_RECORD = "SELECT * FROM USER_INFO WHERE USERNAME = ?";
+    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM STUDENTCREDENTIAL";
+    private static final String GET_STUDENT_RECORD = "SELECT * FROM STUDENTCREDENTIAL WHERE USERNAME = ?";
     private static final String ENCRYPT_LOGIN_PASSWORD = "UPDATE USER_INFO SET PASSWORD = ?, IS_ENCRYPTED = TRUE WHERE USERNAME = ?";
 
     private static DatabaseManager instance;
@@ -114,6 +117,46 @@ public class DatabaseManager {
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 record = new LoginRecord(resultSet);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return record;
+    }
+    
+    public static ArrayList<StudentRecord> getAllStudentRecords(ServletContext context) {
+        ArrayList<StudentRecord> records = new ArrayList<>();
+
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            Statement statement = connection.createStatement();
+            statement.execute(GET_ALL_STUDENT_RECORDS);
+
+            ResultSet resultSet = statement.getResultSet();
+            while (resultSet.next()) {
+                records.add(new StudentRecord(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return records;
+    }
+    
+    public static StudentRecord getStudentRecord(ServletContext context, String key) {
+        StudentRecord record = null;
+
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_STUDENT_RECORD, 1004, 1007);
+            preparedStatement.setString(1, key);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                record = new StudentRecord(resultSet);
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
