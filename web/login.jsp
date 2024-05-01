@@ -17,7 +17,7 @@
         <a href="">Contacts</a>
     </header>
     <nav>
-        <a href="">Dashboard</a>
+        <a href="">Home</a>
         <a href="">Details</a>
         <a href="">Courses</a>
         <a href="">Login</a>

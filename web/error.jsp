@@ -7,5 +7,6 @@
     </head>
     <body>
         <p>${message}</p>
+        <a href="home">Go Back</a>
     </body>
 </html>

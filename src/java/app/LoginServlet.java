@@ -32,6 +32,9 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        session.setAttribute("last-action", "login");
+
         String requestUser = request.getParameter("user");
         String requestPass = request.getParameter("pass");
 
@@ -57,8 +60,6 @@ public class LoginServlet extends HttpServlet {
             return;
         }
 
-        HttpSession session = request.getSession(true);
-
         try {
             requestPass = Cryptographer.encrypt(this.context, requestPass);
         } catch (Exception ex) {
@@ -66,7 +67,7 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (requestPass.equals(record.getPass())) {
-            session.setAttribute("current", record);
+            session.setAttribute("current-login", record);
             response.sendRedirect("captcha");
         } else {
             request.setAttribute("message", "Invalid Password");

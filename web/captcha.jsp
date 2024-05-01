@@ -17,7 +17,7 @@
         <a href="">Contacts</a>
     </header>
     <nav>
-        <a href="">Dashboard</a>
+        <a href="">Home</a>
         <a href="">Details</a>
         <a href="">Courses</a>
         <a href="">Login</a>
@@ -26,7 +26,7 @@
         <p>LOGO MALAKING SQUARE</p>
         <div class="card">
             <form action="captcha">
-                <p class="captcha-display">CAPTCHA SECRET</p>
+                <p class="captcha-display">${captcha}</p>
                 <input class="captcha-input" type="password" name="pass" id="pass">
                 <input class="button" type="submit" value="Submit">
             </form>
