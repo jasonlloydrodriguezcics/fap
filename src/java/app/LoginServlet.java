@@ -68,7 +68,7 @@ public class LoginServlet extends HttpServlet {
 
         if (requestPass.equals(record.getPass())) {
             session.setAttribute("current-login", record);
-            response.sendRedirect("captcha");
+            response.sendRedirect("index.jsp");
         } else {
             request.setAttribute("message", "Invalid Password");
             request.getRequestDispatcher("error.jsp").forward(request, response);

@@ -16,7 +16,7 @@ public class CourseRecord {
         this.training = resultSet.getString("training");
     }
 
-    public String getUsername() {
+    public String getCourse() {
         return course;
     }
 
