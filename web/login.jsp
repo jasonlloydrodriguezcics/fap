@@ -25,7 +25,7 @@
     <main>
         <p>LOGO MALAKING SQUARE</p>
         <div class="card">
-            <form action="login">
+            <form action="login" method="POST">
                 <div class="login-input">
                     <label for="user">Username</label>
                     <input type="text" name="user" id="user">

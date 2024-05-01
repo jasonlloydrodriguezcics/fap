@@ -20,7 +20,7 @@
         <a href="">Dashboard</a>
         <a href="">Details</a>
         <a href="">Courses</a>
-        <a href="">Login</a>
+        <a href="login">Login</a>
     </nav>
     <main>
         <p>content here</p>

@@ -27,23 +27,37 @@ public class LoginServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // invalid login method temp only
+        request.getRequestDispatcher("login.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestUser = request.getParameter("user");
         String requestPass = request.getParameter("pass");
 
-        LoginRecord record = DatabaseManager.getLoginRecord(this.context, requestUser);
-
-        HttpSession session = request.getSession(true);
-
-        if (requestUser.equals("") || requestPass.equals("")) {
+        if (requestUser.equals("") && requestPass.equals("")) {
             throw new NullValueException("Fields must not be blank.");
         }
-
-        if (record == null) {
-            // user not found or some shit
-            System.out.println("couldnt find account");
+        if (requestUser.equals("")) {
+            request.setAttribute("message", "Username Must Not Be Blank");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
+        if (requestPass.equals("")) {
+            request.setAttribute("message", "Password Must Not Be Blank");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        LoginRecord record = DatabaseManager.getLoginRecord(this.context, requestUser);
+
+        if (record == null) {
+            request.setAttribute("message", "Account Not Found");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        HttpSession session = request.getSession(true);
 
         try {
             requestPass = Cryptographer.encrypt(this.context, requestPass);
@@ -52,17 +66,11 @@ public class LoginServlet extends HttpServlet {
         }
 
         if (requestPass.equals(record.getPass())) {
-            // passed every test
-            System.out.println("redirect me");
-            //redirect sa StudentDetailServlet?
             session.setAttribute("current", record);
+            response.sendRedirect("captcha");
         } else {
-            // invalid password ka bro
-            System.out.println("failed");
+            request.setAttribute("message", "Invalid Password");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
         }
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     }
 }
