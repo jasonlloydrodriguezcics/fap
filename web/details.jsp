@@ -35,16 +35,15 @@
                         <c:forEach var="course" items="${sessionScope.courseList}">
                             <p>Course: ${course.course}</p>
                             <p>Training: ${course.training}</p>
-                            <p>Trainor: ${course.trainor}</p>
                         </c:forEach>
                     </div>
                 </div>
                 <%
-                } else if (user.getRole().equalsIgnoreCase("admin")) {
-                    ArrayList<record.CourseRecord> courseLists = (ArrayList<record.CourseRecord>) request.getSession().getAttribute("courseList");
-                    record.CourseRecord courses = null;
+                } else if (user.getRole().equalsIgnoreCase("Trainor")) {
+                    ArrayList<record.TrainingRecord> courseLists = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
+                    record.TrainingRecord courses = null;
 
-                    for (record.CourseRecord q : courseLists) {
+                    for (record.TrainingRecord q : courseLists) {
                         courses = q;
                         break;
                     }
@@ -56,7 +55,7 @@
                         break;
                     }
                 %>
-                <div class="adminDetails">
+                <div class="trainorDetails">
                     <div class="studentRecord">
                         <c:forEach var="studentRecords" items="${sessionScope.studentRecord}">
                             <p>Username: ${studentRecords.username}</p>
@@ -71,7 +70,53 @@
                         </c:forEach>
                     </div>
                 </div>
-                <% }%>
+               <%
+                } else if (user.getRole().equalsIgnoreCase("Admin")) {
+
+                    ArrayList<record.LoginRecord> loginRecords = (ArrayList<record.LoginRecord>) request.getSession().getAttribute("loginRecord");
+                    record.LoginRecord login = null;
+                    for (record.LoginRecord m : loginRecords) {
+                        login = m;
+                        break;
+                    }
+                    ArrayList<record.TrainingRecord> courseLists = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
+                    record.TrainingRecord courses = null;
+
+                    for (record.TrainingRecord q : courseLists) {
+                        courses = q;
+                        break;
+                    }
+                    ArrayList<record.StudentRecord> studentRecord = (ArrayList<record.StudentRecord>) request.getSession().getAttribute("studentRecord");
+                    record.StudentRecord studentRecords = null;
+
+                    for (record.StudentRecord p : studentRecord) {
+                        studentRecords = p;
+                        break;
+                    }
+                %>
+                <div class="adminDetails">
+                    <div class="loginRecord">
+                        <c:forEach var="login" items="${sessionScope.loginRecords}">
+                            <p>Username: ${login.username}</p>
+                            <p>Role: ${login.role}</p>
+                        </c:forEach>
+                    </div>
+                    <div class="studentRecord">
+                        <c:forEach var="studentRecords" items="${sessionScope.studentRecord}">
+                            <p>Username: ${studentRecords.username}</p>
+                            <p>Training: ${studentRecords.training}</p>
+                            <p>Progress: ${studentRecords.progressTracker}</p>
+                        </c:forEach>
+                    </div>
+                    <div class="courseList">
+                        <c:forEach var="courses" items="${sessionScope.courseLists}">
+                            <p>Course: ${courses.course}</p>
+                            <p>Training: ${courses.training}</p>
+                        </c:forEach>
+                    </div>
+                </div>
+                
+            <% } %>    
             </div>
             <div class="report">
                 <form action="${pageContext.request.contextPath}/controller/GenerateReport" method="get" target="_blank">

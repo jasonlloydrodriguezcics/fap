@@ -28,13 +28,11 @@ public class StudentDetailServlet extends HttpServlet {
         DatabaseManager.encryptAllLoginPasswords(context);
     }
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        //check user role to know the allowed credential and details viewing
-        HttpSession session = request.getSession();
+     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         HttpSession session = request.getSession();
         LoginRecord record = (LoginRecord) session.getAttribute("current-login");
         
-        if (record.getRole().equalsIgnoreCase("admin")) {
+        if (record.getRole().equalsIgnoreCase("trainor")) {
             ArrayList<StudentRecord> studentRecord = DatabaseManager.getAllStudentRecords(context);
             ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseList(context);
             session.setAttribute("studentRecord", studentRecord);
@@ -42,48 +40,37 @@ public class StudentDetailServlet extends HttpServlet {
             System.out.println("student training: " + studentRecord.toString());
         }
         
-        else if(record.getRole().equalsIgnoreCase("student")) {
-            StudentRecord studentRecord = DatabaseManager.getStudentRecord(context, record.getUser());
-            ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseRecord(context, record.getUser());
+        else if (record.getRole().equalsIgnoreCase("student")) {
+            StudentRecord studentRecord = DatabaseManager.getStudentRecord(context, record.getUsername());
+            String training = studentRecord.getTraining();
+            ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseRecord(context, training);
+            System.out.println("Training: "+studentRecord.getTraining());
             session.setAttribute("studentRecord", studentRecord);
             session.setAttribute("courseList", courseList);
-            System.out.println("student training: " + studentRecord.getTraining());
+        }
+        
+        else if (record.getRole().equalsIgnoreCase("admin")) {
+            ArrayList<LoginRecord> loginRecords = DatabaseManager.getAllLoginRecords(context);
+            ArrayList<StudentRecord> studentRecord = DatabaseManager.getAllStudentRecords(context);
+            ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseList(context);
+            session.setAttribute("loginRecord", loginRecords);
+            session.setAttribute("studentRecord", studentRecord);
+            session.setAttribute("courseList", courseList);
+            System.out.println("student training: " + studentRecord.toString());
         }
          
         response.sendRedirect("details.jsp");
+     }
+    
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+       processRequest(request, response);
             
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        LoginRecord record = (LoginRecord) session.getAttribute("current-login");
-        
-        if (record.getRole().equalsIgnoreCase("admin")) {
-            ArrayList<StudentRecord> studentRecord = DatabaseManager.getAllStudentRecords(context);
-            ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseList(context);
-            session.setAttribute("studentRecord", studentRecord);
-            session.setAttribute("courseList", courseList);
-            System.out.println("student training: " + studentRecord.toString());
-        }
-        
-        else if(record.getRole().equalsIgnoreCase("student")) {
-            StudentRecord studentRecord = DatabaseManager.getStudentRecord(context, record.getUser());
-            String training = studentRecord.getTraining();
-            ArrayList<TrainingRecord> courseList = DatabaseManager.getCourseRecord(context, training);
-            System.out.println("Training Record: " + courseList);
-            for (Iterator<TrainingRecord> it = courseList.iterator(); it.hasNext();) {
-                TrainingRecord records;
-                records = it.next();
-                System.out.println(records.getcourse());
-            }
-
-            System.out.println("Training: "+studentRecord.getTraining());
-            session.setAttribute("studentRecord", studentRecord);
-            session.setAttribute("courseList", courseList);
-        }
-         
-        response.sendRedirect("details.jsp");
+        processRequest(request, response);
     }
 
     public String getServletInfo() {

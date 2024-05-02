@@ -6,27 +6,27 @@ import java.util.Objects;
 
 public class LoginRecord {
 
-    private final String user;
+    private final String username;
     private String pass;
     private final String role;
     private boolean isEncrypted;
 
-    public LoginRecord(String user, String pass, String role, boolean isEncrypted) {
-        this.user = user;
+    public LoginRecord(String username, String pass, String role, boolean isEncrypted) {
+        this.username = username;
         this.pass = pass;
         this.role = role;
         this.isEncrypted = isEncrypted;
     }
 
     public LoginRecord(ResultSet resultSet) throws SQLException {
-        this.user = resultSet.getString("USERNAME");
+        this.username = resultSet.getString("USERNAME");
         this.pass = resultSet.getString("PASSWORD");
         this.role = resultSet.getString("ROLE");
         this.isEncrypted = resultSet.getBoolean("IS_ENCRYPTED");
     }
 
-    public String getUser() {
-        return this.user;
+    public String getUsername() {
+        return this.username;
     }
 
     public String getPass() {
@@ -53,11 +53,11 @@ public class LoginRecord {
             return true;
         }
 
-        return this.user.equals(otherRecord.getUser());
+        return this.username.equals(otherRecord.getUsername());
     }
 
     @Override
     public int hashCode() {
-        return 73 * 5 + Objects.hashCode(this.user);
+        return 73 * 5 + Objects.hashCode(this.username);
     }
 }

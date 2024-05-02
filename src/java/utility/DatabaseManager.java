@@ -81,7 +81,7 @@ public class DatabaseManager {
                 }
 
                 preparedStatement.setString(1, Cryptographer.encrypt(context, record.getPass()));
-                preparedStatement.setString(2, record.getUser());
+                preparedStatement.setString(2, record.getUsername());
                 preparedStatement.executeUpdate();
             }
         } catch (Exception ex) {
