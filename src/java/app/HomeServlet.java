@@ -13,7 +13,7 @@ public class HomeServlet extends HttpServlet {
         HttpSession session = request.getSession(true);
 
         if (session.getAttribute("current-login") != null) {
-            request.getRequestDispatcher("Home.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
 
         request.getRequestDispatcher("login.jsp").forward(request, response);
