@@ -14,15 +14,16 @@ import javax.servlet.ServletContext;
 import record.LoginRecord;
 import record.StudentRecord;
 import record.CourseRecord;
+import record.TrainingRecord;
 
 public class DatabaseManager {
 
     private static final String GET_ALL_LOGIN_RECORDS = "SELECT * FROM USER_INFO";
     private static final String GET_LOGIN_RECORD = "SELECT * FROM USER_INFO WHERE USERNAME = ?";
-    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM STUDENTCREDENTIAL";
-    private static final String GET_ALL_COURSES = "SELECT * FROM COURSE";
-    private static final String GET_COURSE_RECORD = "SELECT * FROM COURSE WHERE USERNAME = ?";
-    private static final String GET_STUDENT_RECORD = "SELECT * FROM STUDENTCREDENTIAL WHERE USERNAME = ?";
+    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM STUDENTDETAILS";
+    private static final String GET_ALL_COURSES = "SELECT * FROM TRAININGDETAILS";
+    private static final String GET_COURSE_RECORD = "SELECT * FROM TRAININGDETAILS WHERE TRAINING = ?";
+    private static final String GET_STUDENT_RECORD = "SELECT * FROM STUDENTDETAILS WHERE USERNAME = ?";
     private static final String ENCRYPT_LOGIN_PASSWORD = "UPDATE USER_INFO SET PASSWORD = ?, IS_ENCRYPTED = TRUE WHERE USERNAME = ?";
 
     private static DatabaseManager instance;
@@ -168,8 +169,8 @@ public class DatabaseManager {
         return record;
     }
     
-    public static ArrayList<CourseRecord> getCourseList(ServletContext context) {
-        ArrayList<CourseRecord> courseList = new ArrayList<>();
+    public static ArrayList<TrainingRecord> getCourseList(ServletContext context) {
+        ArrayList<TrainingRecord> courseList = new ArrayList<>();
         try {
             DatabaseManager manager = DatabaseManager.getInstance(context);
             Connection connection = manager.getMysqlConnection();
@@ -178,7 +179,7 @@ public class DatabaseManager {
 
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                courseList.add(new CourseRecord(resultSet));
+                courseList.add(new TrainingRecord(resultSet));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -187,8 +188,8 @@ public class DatabaseManager {
         return courseList;
     }
     
-    public static ArrayList<CourseRecord> getCourseRecord(ServletContext context, String key) {
-        ArrayList<CourseRecord> courseList = new ArrayList<>();
+    public static ArrayList<TrainingRecord> getCourseRecord(ServletContext context, String key) {
+        ArrayList<TrainingRecord> courseList = new ArrayList<>();
 
         try {
             DatabaseManager manager = DatabaseManager.getInstance(context);
@@ -198,7 +199,7 @@ public class DatabaseManager {
 
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                courseList.add(new CourseRecord(resultSet));
+                courseList.add(new TrainingRecord(resultSet));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);

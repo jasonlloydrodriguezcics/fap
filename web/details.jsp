@@ -20,10 +20,10 @@
                 <%
                     record.LoginRecord user = (record.LoginRecord) session.getAttribute("current-login");
                     if (user.getRole().equalsIgnoreCase("student")) {
-                        ArrayList<record.CourseRecord> courseList = (ArrayList<record.CourseRecord>) request.getSession().getAttribute("courseList");
-                        record.CourseRecord course = null;
+                        ArrayList<record.TrainingRecord> courseList = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
+                        record.TrainingRecord course = null;
 
-                        for (record.CourseRecord p : courseList) {
+                        for (record.TrainingRecord p : courseList) {
                             course = p;
                             break;
                         }
@@ -35,6 +35,7 @@
                         <c:forEach var="course" items="${sessionScope.courseList}">
                             <p>Course: ${course.course}</p>
                             <p>Training: ${course.training}</p>
+                            <p>Trainor: ${course.trainor}</p>
                         </c:forEach>
                     </div>
                 </div>
