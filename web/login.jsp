@@ -1,46 +1,39 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Active Learning</title>
-</head>
-
-<body>
-    <header>
-        <p>LOGO 8=D</p>
-        <a href="">Courses</a>
-        <a href="">News</a>
-        <a href="">Careers</a>
-        <a href="">Company</a>
-        <a href="">Contacts</a>
-    </header>
-    <nav>
-        <a href="">Home</a>
-        <a href="">Details</a>
-        <a href="">Courses</a>
-        <a href="">Login</a>
-    </nav>
-    <main>
-        <p>LOGO MALAKING SQUARE</p>
-        <div class="card">
-            <form action="login" method="POST">
-                <div class="login-input">
-                    <label for="user">Username</label>
-                    <input type="text" name="user" id="user">
-                </div>
-                <div class="login-input">
-                    <label for="pass">Password</label>
-                    <input type="password" name="pass" id="pass">
-                </div>
-                <input class="button" type="submit" value="Login">
-            </form>
-        </div>
-    </main>
-    <footer>
-        <p>ACTIVE LEARNING 8=D</p>
-    </footer>
-</body>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Login - Active Learning</title>
+    </head>
+    <%
+        response.setHeader("Cache-Control", "no-cache");
+        response.setDateHeader("Expires", 0);
+    %>
+    <body>
+        <jsp:include page="/component/header.jsp"/>
+        <jsp:include page="/component/nav.jsp"/>
+        <main>
+            <p>LOGO MALAKING SQUARE</p>
+            <div class="card">
+                <form action="login" method="POST">
+                    <div class="login-input">
+                        <label for="user">Username</label>
+                        <input type="text" name="user" id="user">
+                    </div>
+                    <div class="login-input">
+                        <label for="pass">Password</label>
+                        <input type="password" name="pass" id="pass">
+                    </div>
+                    <div class="captcha-input">
+                        <img src="${pageContext.request.contextPath}/captcha" alt="captcha"/>
+                        <input type="text" name="captcha" id="captcha">
+                    </div>
+                    <input class="button" type="submit" value="Login">
+                </form>
+            </div>
+        </main>
+        <jsp:include page="/component/footer.jsp"/>
+    </body>
 
 </html>

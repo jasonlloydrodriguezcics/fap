@@ -26,33 +26,33 @@ public class LoginServlet extends HttpServlet {
     }
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getRequestDispatcher("login.jsp").forward(request, response);
-    }
-
-    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(true);
-        session.setAttribute("last-action", "login");
+        HttpSession session = request.getSession(false);
 
-        String requestUser = request.getParameter("user");
-        String requestPass = request.getParameter("pass");
+        String user = request.getParameter("user");
+        String pass = request.getParameter("pass");
+        String captcha = request.getParameter("captcha");
 
-        if (requestUser.equals("") && requestPass.equals("")) {
+        if (user.equals("") && pass.equals("")) {
             throw new NullValueException("Fields must not be blank.");
         }
-        if (requestUser.equals("")) {
+        if (user.equals("")) {
             request.setAttribute("message", "Username Must Not Be Blank");
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
-        if (requestPass.equals("")) {
+        if (pass.equals("")) {
             request.setAttribute("message", "Password Must Not Be Blank");
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;
         }
+        if (captcha.equals("")) {
+            request.setAttribute("message", "Captcha Must Not Be Blank");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
 
-        LoginRecord record = DatabaseManager.getLoginRecord(this.context, requestUser);
+        LoginRecord record = DatabaseManager.getLoginRecord(this.context, user);
 
         if (record == null) {
             request.setAttribute("message", "Account Not Found");
@@ -61,17 +61,24 @@ public class LoginServlet extends HttpServlet {
         }
 
         try {
-            requestPass = Cryptographer.encrypt(this.context, requestPass);
-        } catch (Exception ex) {
-            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, ex);
+            pass = Cryptographer.encrypt(this.context, pass);
+        } catch (Exception exception) {
+            Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, exception);
         }
 
-        if (requestPass.equals(record.getPass())) {
-            session.setAttribute("current-login", record);
-            response.sendRedirect("index.jsp");
-        } else {
+        if (!pass.equals(record.getPass())) {
             request.setAttribute("message", "Invalid Password");
             request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
         }
+
+        if (!captcha.equals(session.getAttribute("captcha"))) {
+            request.setAttribute("message", "Invalid Captcha");
+            request.getRequestDispatcher("error.jsp").forward(request, response);
+            return;
+        }
+
+        session.setAttribute("current-login", record);
+        response.sendRedirect("home");
     }
 }
