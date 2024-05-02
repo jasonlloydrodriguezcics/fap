@@ -80,6 +80,14 @@
         <servlet-name>Home</servlet-name>
         <url-pattern>/home</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>StudentDetail</servlet-name>
+        <servlet-class>app.StudentDetailServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>StudentDetail</servlet-name>
+        <url-pattern>/details</url-pattern>
+    </servlet-mapping>
     
     <!-- Config -->
     <welcome-file-list>
