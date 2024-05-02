@@ -96,7 +96,7 @@
                 %>
                 <div class="adminDetails">
                     <div class="loginRecord">
-                        <c:forEach var="login" items="${sessionScope.loginRecords}">
+                        <c:forEach var="login" items="${sessionScope.loginRecord}">
                             <p>Username: ${login.username}</p>
                             <p>Role: ${login.role}</p>
                         </c:forEach>
