@@ -96,22 +96,6 @@
                     }
                 }
             } else if (loginRecord.getRole().equals("Student")) {
-                Object studentRecords = request.getAttribute("student-records");
-
-                if (studentRecords != null) {
-                    for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
-            %>
-            <div class="student-record">
-                <p>Student ID: <%=record.getId()%></p>
-                <p>Username: <%=record.getUsername()%></p>
-                <p>Progress: <%=record.getProgress()%>%</p>
-                <p>Start Date: <%=record.getStartDate()%></p>
-                <p>End Date: <%=record.getEndDate()%></p>
-            </div>
-            <%
-                    }
-                }
-
                 StudentRecord studentRecord = (StudentRecord) request.getAttribute("student-record");
 
                 if (studentRecord != null) {
