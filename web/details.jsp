@@ -1,3 +1,4 @@
+<%@page import="utility.Cryptographer"%>
 <%@page import="record.CourseRecord"%>
 <%@page import="record.TrainingRecord"%>
 <%@page import="record.LoginRecord"%>
@@ -121,16 +122,24 @@
                 <p>Description: <%=record.getDescription()%></p>
             </div>
             <%
-                        }
                     }
                 }
+            } else if (loginRecord.getRole().equals("Guest")) {
             %>
+            <div class="login-record">
+                <p>Username: <%=loginRecord.getUsername()%></p>
+                <p>Password: <%=Cryptographer.decrypt(config.getServletContext(), loginRecord.getPassword())%></p>
+                <p>Role: <%=loginRecord.getRole()%></p>
+            </div>
             <%
+                }
+
                 if (!loginRecord.getRole().equals("Guest")) {
             %>
             <div class="report">
                 <form action="${pageContext.request.contextPath}/report">
-                    <%                        if (loginRecord.getRole().equals("Trainor")) {
+                    <%
+                        if (loginRecord.getRole().equals("Trainor")) {
                     %>
                     <input type="date" name="start-date" id="start-date">
                     <input type="date" name="end-date" id="end-date">
