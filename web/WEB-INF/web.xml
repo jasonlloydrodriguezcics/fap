@@ -32,7 +32,7 @@
     </context-param>
     <context-param>
         <param-name>mysqlJdbcDriverUrl</param-name>
-        <param-value>jdbc:mysql://localhost:3306/mysql</param-value>
+        <param-value>jdbc:mysql://localhost:3306/StudentDB</param-value>
     </context-param>
     <!-- Encryption -->
     <context-param>
@@ -47,6 +47,10 @@
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>app.LoginServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Error</servlet-name>
+        <servlet-class>app.ErrorServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
@@ -88,15 +92,25 @@
         <servlet-name>StudentDetail</servlet-name>
         <url-pattern>/details</url-pattern>
     </servlet-mapping>
-    
+    <servlet>
+        <servlet-name>Report</servlet-name>
+        <servlet-class>app.ReportServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Report</servlet-name>
+        <url-pattern>/report</url-pattern>
+    </servlet-mapping>
     <!-- Config -->
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>Error</servlet-name>
+        <url-pattern>/error</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>5</session-timeout>
     </session-config>
-    
     <!-- Error Pages -->
     <error-page>
         <error-code>404</error-code>

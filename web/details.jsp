@@ -1,5 +1,8 @@
+<%@page import="record.CourseRecord"%>
+<%@page import="record.TrainingRecord"%>
+<%@page import="record.LoginRecord"%>
+<%@page import="record.StudentRecord"%>
 <%@page import="java.util.ArrayList"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -16,110 +19,132 @@
         <jsp:include page="/component/header.jsp"/>
         <jsp:include page="/component/nav.jsp"/>
         <main>
-            <div class="mainContent">
-                <%
-                    record.LoginRecord user = (record.LoginRecord) session.getAttribute("current-login");
-                    if (user.getRole().equalsIgnoreCase("student")) {
-                        ArrayList<record.TrainingRecord> courseList = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
-                        record.TrainingRecord course = null;
+            <%
+                LoginRecord loginRecord = (LoginRecord) session.getAttribute("current-login");
 
-                        for (record.TrainingRecord p : courseList) {
-                            course = p;
-                            break;
-                        }
-                %>
-                <div class="studentDetails">
-                    <h6>Training: <%=  ((record.StudentRecord) request.getSession().getAttribute("studentRecord")).getTraining()%></h6>
-                    <h6>Progress Tracker: <%=  ((record.StudentRecord) request.getSession().getAttribute("studentRecord")).getProgressTracker()%></h6>
-                    <div class="courseList">
-                        <c:forEach var="course" items="${sessionScope.courseList}">
-                            <p>Course: ${course.course}</p>
-                            <p>Training: ${course.training}</p>
-                        </c:forEach>
-                    </div>
-                </div>
-                <%
-                } else if (user.getRole().equalsIgnoreCase("Trainor")) {
-                    ArrayList<record.TrainingRecord> courseLists = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
-                    record.TrainingRecord courses = null;
+                if (loginRecord.getRole().equals("Admin")) {
+                    Object loginRecords = request.getAttribute("login-records");
 
-                    for (record.TrainingRecord q : courseLists) {
-                        courses = q;
-                        break;
-                    }
-                    ArrayList<record.StudentRecord> studentRecord = (ArrayList<record.StudentRecord>) request.getSession().getAttribute("studentRecord");
-                    record.StudentRecord studentRecords = null;
-
-                    for (record.StudentRecord p : studentRecord) {
-                        studentRecords = p;
-                        break;
-                    }
-                %>
-                <div class="trainorDetails">
-                    <div class="studentRecord">
-                        <c:forEach var="studentRecords" items="${sessionScope.studentRecord}">
-                            <p>Username: ${studentRecords.username}</p>
-                            <p>Training: ${studentRecords.training}</p>
-                            <p>Progress: ${studentRecords.progressTracker}</p>
-                        </c:forEach>
-                    </div>
-                    <div class="courseList">
-                        <c:forEach var="courses" items="${sessionScope.courseLists}">
-                            <p>Course: ${courses.course}</p>
-                            <p>Training: ${courses.training}</p>
-                        </c:forEach>
-                    </div>
-                </div>
-                <%
-                } else if (user.getRole().equalsIgnoreCase("Admin")) {
-
-                    ArrayList<record.LoginRecord> loginRecords = (ArrayList<record.LoginRecord>) request.getSession().getAttribute("loginRecord");
-                    record.LoginRecord login = null;
-                    for (record.LoginRecord m : loginRecords) {
-                        login = m;
-                        break;
-                    }
-                    ArrayList<record.TrainingRecord> courseLists = (ArrayList<record.TrainingRecord>) request.getSession().getAttribute("courseList");
-                    record.TrainingRecord courses = null;
-
-                    for (record.TrainingRecord q : courseLists) {
-                        courses = q;
-                        break;
-                    }
-                    ArrayList<record.StudentRecord> studentRecord = (ArrayList<record.StudentRecord>) request.getSession().getAttribute("studentRecord");
-                    record.StudentRecord studentRecords = null;
-
-                    for (record.StudentRecord p : studentRecord) {
-                        studentRecords = p;
-                        break;
-                    }
-                %>
-                <div class="adminDetails">
-                    <div class="loginRecord">
-                        <c:forEach var="login" items="${sessionScope.loginRecord}">
-                            <p>Username: ${login.username}</p>
-                            <p>Role: ${login.role}</p>
-                        </c:forEach>
-                    </div>
-                    <div class="studentRecord">
-                        <c:forEach var="studentRecords" items="${sessionScope.studentRecord}">
-                            <p>Username: ${studentRecords.username}</p>
-                            <p>Training: ${studentRecords.training}</p>
-                            <p>Progress: ${studentRecords.progressTracker}</p>
-                        </c:forEach>
-                    </div>
-                    <div class="courseList">
-                        <c:forEach var="courses" items="${sessionScope.courseLists}">
-                            <p>Course: ${courses.course}</p>
-                            <p>Training: ${courses.training}</p>
-                        </c:forEach>
-                    </div>
-                </div>
-
-                <% }%>    
+                    if (loginRecords != null) {
+                        for (LoginRecord record : (ArrayList<LoginRecord>) loginRecords) {
+            %>
+            <div class="login-record">
+                <p><%=(loginRecord.equals(record) ? "*" : "")%> Username: <%=record.getUsername()%></p>
+                <p>Role: <%=record.getRole()%></p>
             </div>
+            <%
+                    }
+                }
+
+                Object studentRecords = request.getAttribute("student-records");
+
+                if (studentRecords != null) {
+                    for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
+            %>
+            <div class="student-record">
+                <p>Student ID: <%=record.getId()%></p>
+                <p>Username: <%=record.getUsername()%></p>
+                <p>Progress: <%=record.getProgress()%>%</p>
+                <p>Start Date: <%=record.getStartDate()%></p>
+                <p>End Date: <%=record.getEndDate()%></p>
+            </div>
+            <%
+                    }
+                }
+
+                Object trainingRecords = request.getAttribute("training-records");
+
+                if (trainingRecords != null) {
+                    for (TrainingRecord record : (ArrayList<TrainingRecord>) trainingRecords) {
+            %>
+            <div class="training-record">
+                <p>Training ID: <%=record.getId()%></p>
+                <p>Training: <%=record.getName()%></p>
+                <p>Trainor: <%=record.getTrainorName()%></p>
+            </div>
+            <%
+                    }
+                }
+            } else if (loginRecord.getRole().equals("Trainor")) {
+                Object studentRecords = request.getAttribute("student-records");
+
+                if (studentRecords != null) {
+                    for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
+            %>
+            <div class="student-record">
+                <p>Student ID: <%=record.getId()%></p>
+                <p>Username: <%=record.getUsername()%></p>
+                <p>Progress: <%=record.getProgress()%>%</p>
+                <p>Start Date: <%=record.getStartDate()%></p>
+                <p>End Date: <%=record.getEndDate()%></p>
+            </div>
+            <%
+                    }
+                }
+
+                Object trainingRecords = request.getAttribute("training-records");
+
+                if (trainingRecords != null) {
+                    for (TrainingRecord record : (ArrayList<TrainingRecord>) trainingRecords) {
+            %>
+            <div class="training-record">
+                <p>Training ID: <%=record.getId()%></p>
+                <p>Training: <%=record.getName()%></p>
+                <p>Trainor: <%=record.getTrainorName()%></p>
+            </div>
+            <%
+                    }
+                }
+            } else if (loginRecord.getRole().equals("Student")) {
+                Object studentRecords = request.getAttribute("student-records");
+
+                if (studentRecords != null) {
+                    for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
+            %>
+            <div class="student-record">
+                <p>Student ID: <%=record.getId()%></p>
+                <p>Username: <%=record.getUsername()%></p>
+                <p>Progress: <%=record.getProgress()%>%</p>
+                <p>Start Date: <%=record.getStartDate()%></p>
+                <p>End Date: <%=record.getEndDate()%></p>
+            </div>
+            <%
+                    }
+                }
+
+                StudentRecord studentRecord = (StudentRecord) request.getAttribute("student-record");
+
+                if (studentRecord != null) {
+            %>
+            <div class="student-record">
+                <p>Student ID: <%=studentRecord.getId()%></p>
+                <p>Username: <%=studentRecord.getUsername()%></p>
+                <p>Progress: <%=studentRecord.getProgress()%>%</p>
+                <p>Start Date: <%=studentRecord.getStartDate()%></p>
+                <p>End Date: <%=studentRecord.getEndDate()%></p>
+            </div>
+            <%
+                }
+
+                Object courseRecords = request.getAttribute("course-records");
+
+                if (courseRecords != null) {
+                    for (CourseRecord record : (ArrayList<CourseRecord>) courseRecords) {
+            %>
+            <div class="course-record">
+                <p>Course ID: <%=record.getId()%></p>
+                <p>Course: <%=record.getName()%></p>
+                <p>Description: <%=record.getDescription()%></p>
+            </div>
+            <%
+                        }
+                    }
+                }
+            %>
             <div class="report">
-                <form action="${pageContext.request.contextPath}/controller/GenerateReport" method="get" target="_blank">
+                <form action="${pageContext.request.contextPath}/report" target="_blank">
+                    <input type="date">
+                    <input type="date">
                     <input type="submit" value="Generate PDF">
                 </form>
             </div>

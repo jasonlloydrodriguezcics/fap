@@ -5,49 +5,42 @@ import java.sql.SQLException;
 
 public class CourseRecord {
 
-    private String training;
-    private String trainor;
+    private int id;
+    private String name;
     private String description;
-    private String course;
-
-    public CourseRecord(String course, String description, String trainor, String training) {
-        this.course = course;
-        this.description = description;
-        this.trainor = trainor;
-        this.training = training;
-    }
+    private int trainingId;
+    private String trainingName;
 
     public CourseRecord(ResultSet resultSet) throws SQLException {
-        this.course = resultSet.getString("course");
-        this.description = resultSet.getString("description");
-        this.trainor = resultSet.getString("trainor");
-        this.training = resultSet.getString("training");
+        this.id = resultSet.getInt("course_id");
+        this.name = resultSet.getString("course_name");
+        this.description = resultSet.getString("course_description");
+        this.trainingId = resultSet.getInt("training_id");
+        this.trainingName = resultSet.getString("training_name");
     }
 
-    public String getCourse() {
-        return course;
+    public int getId() {
+        return this.id;
     }
 
-    public String getTraining() {
-        return training;
-    }
-
-    public String getTrainor() {
-        return trainor;
+    public String getName() {
+        return this.name;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
+    }
+
+    public int getTrainingId() {
+        return this.trainingId;
+    }
+
+    public String getTrainingName() {
+        return this.trainingName;
     }
 
     @Override
     public String toString() {
-        return "{"
-                + "\"training\":\"" + training + "\","
-                + "\"course\":\"" + course + "\","
-                + "\"description\":\"" + description + "\","
-                + "\"trainor\":\"" + trainor + "\","
-                + "}";
+        return String.format("{ID: %d | NAME: %s | DESCRIPTION: %s | TRAINING: %s}", id, name, description, trainingName);
     }
-
 }

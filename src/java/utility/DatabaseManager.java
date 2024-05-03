@@ -21,10 +21,12 @@ public class DatabaseManager {
     private static final String GET_ALL_LOGIN_RECORDS = "SELECT * FROM USER_INFO";
     private static final String GET_LOGIN_RECORD = "SELECT * FROM USER_INFO WHERE USERNAME = ?";
     private static final String ENCRYPT_LOGIN_PASSWORD = "UPDATE USER_INFO SET PASSWORD = ?, IS_ENCRYPTED = TRUE WHERE USERNAME = ?";
-    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM StudentDetails";
-    private static final String GET_STUDENT_RECORD = "SELECT * FROM StudentDetails WHERE USERNAME = ?";
-    private static final String GET_ALL_COURSES = "SELECT * FROM TrainingDetails";
-    private static final String GET_COURSE_RECORD = "SELECT * FROM TrainingDetails WHERE TRAINING = ?";
+    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM StudentDetails JOIN TrainingDetails ON StudentDetails.training_id = TrainingDetails.training_id JOIN TrainorDetails ON TrainingDetails.trainor_id = TrainorDetails.trainor_id";
+    private static final String GET_STUDENT_RECORD = "SELECT * FROM StudentDetails JOIN TrainingDetails ON StudentDetails.training_id = TrainingDetails.training_id JOIN TrainorDetails ON TrainingDetails.trainor_id = TrainorDetails.trainor_id WHERE StudentDetails.student_username = ?";
+    private static final String GET_ALL_TRAINING_RECORDS = "SELECT * FROM TrainingDetails JOIN TrainorDetails ON TrainingDetails.trainor_id = TrainorDetails.trainor_id";
+    private static final String GET_TRAINING_RECORD = "SELECT * FROM TrainingDetails JOIN TrainorDetails ON TrainingDetails.trainor_id = TrainorDetails.trainor_id WHERE training_id = ?";
+    private static final String GET_ALL_COURSE_RECORDS = "SELECT * FROM CourseDetails JOIN TrainingDetails ON CourseDetails.training_id = TrainingDetails.training_id WHERE CourseDetails.training_id = ?";
+    private static final String GET_COURSE_RECORD = "SELECT * FROM CourseDetails JOIN TrainingDetails ON CourseDetails.training_id = TrainingDetails.training_id WHERE CourseDetails.course_id = ?";
 
     private static DatabaseManager instance;
     private Connection derbyConnection;
@@ -80,7 +82,7 @@ public class DatabaseManager {
                     continue;
                 }
 
-                preparedStatement.setString(1, Cryptographer.encrypt(context, record.getPass()));
+                preparedStatement.setString(1, Cryptographer.encrypt(context, record.getPassword()));
                 preparedStatement.setString(2, record.getUsername());
                 preparedStatement.executeUpdate();
             }
@@ -128,7 +130,7 @@ public class DatabaseManager {
 
         return record;
     }
-    
+
     public static ArrayList<StudentRecord> getAllStudentRecords(ServletContext context) {
         ArrayList<StudentRecord> records = new ArrayList<>();
 
@@ -148,7 +150,7 @@ public class DatabaseManager {
 
         return records;
     }
-    
+
     public static StudentRecord getStudentRecord(ServletContext context, String key) {
         StudentRecord record = null;
 
@@ -168,26 +170,67 @@ public class DatabaseManager {
 
         return record;
     }
-    
-    public static ArrayList<TrainingRecord> getCourseList(ServletContext context) {
-        ArrayList<TrainingRecord> courseList = new ArrayList<>();
+
+    public static ArrayList<TrainingRecord> getTrainingRecords(ServletContext context) {
+        ArrayList<TrainingRecord> records = new ArrayList<>();
+
         try {
             DatabaseManager manager = DatabaseManager.getInstance(context);
             Connection connection = manager.getMysqlConnection();
             Statement statement = connection.createStatement();
-            statement.execute(GET_ALL_COURSES);
+            statement.execute(GET_ALL_TRAINING_RECORDS);
 
             ResultSet resultSet = statement.getResultSet();
             while (resultSet.next()) {
-                courseList.add(new TrainingRecord(resultSet));
+                records.add(new TrainingRecord(resultSet));
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        return courseList;
+
+        return records;
     }
-    
+
+    public static TrainingRecord getTrainingRecord(ServletContext context, String key) {
+        TrainingRecord record = null;
+
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_TRAINING_RECORD, 1004, 1007);
+            preparedStatement.setString(1, key);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                record = new TrainingRecord(resultSet);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return record;
+    }
+
+    public static ArrayList<CourseRecord> getCourseRecords(ServletContext context, String key) {
+        ArrayList<CourseRecord> records = new ArrayList<>();
+
+        try {
+            DatabaseManager manager = DatabaseManager.getInstance(context);
+            Connection connection = manager.getMysqlConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(GET_ALL_COURSE_RECORDS, 1004, 1007);
+            preparedStatement.setString(1, key);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                records.add(new CourseRecord(resultSet));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return records;
+    }
+
     public static ArrayList<TrainingRecord> getCourseRecord(ServletContext context, String key) {
         ArrayList<TrainingRecord> courseList = new ArrayList<>();
 
@@ -204,7 +247,7 @@ public class DatabaseManager {
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return courseList;
     }
 }

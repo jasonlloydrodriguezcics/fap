@@ -1,42 +1,44 @@
 package record;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrainingRecord {
-    private String training;
-    private String course;
 
-    public TrainingRecord(String course, String training) {
-        this.course = course;
-        this.training = training;
-    }
-    
+    private int id;
+    private String name;
+    private int trainorId;
+    private String trainorName;
+
     public TrainingRecord(ResultSet resultSet) throws SQLException {
-        this.course = resultSet.getString("course");
-        this.training = resultSet.getString("training");
-    }
-    
-       public String getTraining() {
-        return training;
+        this.id = resultSet.getInt("training_id");
+        this.name = resultSet.getString("training_name");
+        this.trainorId = resultSet.getInt("trainor_id");
+        this.trainorName = resultSet.getString("trainor_username");
     }
 
-    public void setTraining(String training) {
-        this.training = training;
+    public int getId() {
+        return this.id;
     }
 
-    public String getcourse() {
-        return course;
+    public String getName() {
+        return this.name;
     }
 
-    public void setCourse(String course) {
-        this.course = course;
+    public String getMaxProgress() {
+        return this.name;
+    }
+
+    public int getTrainorId() {
+        return this.trainorId;
+    }
+
+    public String getTrainorName() {
+        return this.trainorName;
     }
 
     @Override
     public String toString() {
-        return "{"
-                + "\"training\":\"" + getTraining() + "\","
-                + "\"course\":\"" + course + "\","
-                + "}";
+        return String.format("{ID: %d | NAME: %s | TRAINOR: %s}", id, name, trainorName);
     }
 }

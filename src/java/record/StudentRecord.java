@@ -4,77 +4,56 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class StudentRecord {
+
+    private int id;
     private String username;
-    private String training;
-    private int progressTracker;
+    private int progress;
     private String startDate;
     private String endDate;
+    private int trainingId;
+    private String trainingName;
 
-    public StudentRecord(String username, String training, int progressTracker, String startDate, String endDate) {
-        this.username = username;
-        this.training = training;
-        this.progressTracker =progressTracker;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-    
     public StudentRecord(ResultSet resultSet) throws SQLException {
-        this.username = resultSet.getString("username");
-        this.training = resultSet.getString("training");
-        this.progressTracker = resultSet.getInt("progressTracker");
-        this.startDate = resultSet.getString("startDate");
-        this.endDate = resultSet.getString("endDate");
+        this.id = resultSet.getInt("student_id");
+        this.username = resultSet.getString("student_username");
+        this.progress = resultSet.getInt("progress");
+        this.startDate = resultSet.getString("start_date");
+        this.endDate = resultSet.getString("end_date");
+        this.trainingId = resultSet.getInt("training_id");
+        this.trainingName = resultSet.getString("training_name");
+    }
+
+    public int getId() {
+        return this.id;
     }
 
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
-    public String getTraining() {
-        return training;
-    }
-
-    public int getProgressTracker() {
-        return progressTracker;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setTraining(String training) {
-        this.training = training;
-    }
-
-    public void setProgressTracker(int progressTracker) {
-        this.progressTracker = progressTracker;
-    }
-    
-
-    @Override
-    public String toString() {
-        return "{"
-                + "\"username\":\"" + username + "\","
-                + "\"training\":\"" + training + "\","
-                + "\"progressTracker\":\"" + progressTracker + "\""
-                + "\"startDate\":\"" + startDate + "\""
-                + "\"endDate\":\"" + endDate + "\""
-                + "}";
+    public int getProgress() {
+        return this.progress;
     }
 
     public String getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(String startDate) {
-        this.startDate = startDate;
+        return this.startDate;
     }
 
     public String getEndDate() {
-        return endDate;
+        return this.endDate;
     }
 
-    public void setEndDate(String endDate) {
-        this.endDate = endDate;
+    public int getTrainingId() {
+        return this.trainingId;
     }
+
+    public String getTrainingName() {
+        return this.trainingName;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{ID: %d | USERNAME: %s | PROGRESS: %d | START-DATE: %s | END-DATE: %s | TRAINING: %s}", id, username, progress, startDate, endDate, trainingName);
+    }
+
 }

@@ -22,7 +22,6 @@ public class LoginServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         this.context = config.getServletContext();
-        DatabaseManager.encryptAllLoginPasswords(context);
     }
 
     @Override
@@ -66,7 +65,7 @@ public class LoginServlet extends HttpServlet {
             Logger.getLogger(LoginServlet.class.getName()).log(Level.SEVERE, null, exception);
         }
 
-        if (!pass.equals(record.getPass())) {
+        if (!pass.equals(record.getPassword())) {
             request.setAttribute("message", "Invalid Password");
             request.getRequestDispatcher("error.jsp").forward(request, response);
             return;

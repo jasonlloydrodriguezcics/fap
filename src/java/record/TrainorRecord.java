@@ -1,43 +1,28 @@
 package record;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class TrainorRecord {
-    private String training;
+
+    private int id;
     private String username;
 
-    public TrainorRecord(String username, String training) {
-        this.username = username;
-        this.training = training;
-    }
-    
     public TrainorRecord(ResultSet resultSet) throws SQLException {
-        this.username = resultSet.getString("username");
-        this.training = resultSet.getString("training");
+        this.id = resultSet.getInt("trainor_id");
+        this.username = resultSet.getString("trainor_username");
     }
 
-    public String getTraining() {
-        return training;
-    }
-
-    public void setTraining(String training) {
-        this.training = training;
+    public int getId() {
+        return this.id;
     }
 
     public String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     @Override
     public String toString() {
-        return "{"
-                + "\"training\":\"" + getTraining() + "\","
-                + "\"trainor\":\"" + username + "\","
-                + "}";
+        return String.format("{ID: %d | USERNAME: %s}", id, username);
     }
-
 }
