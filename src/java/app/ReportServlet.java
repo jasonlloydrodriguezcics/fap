@@ -15,6 +15,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 import exception.InvalidDateException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -91,7 +92,7 @@ public class ReportServlet extends HttpServlet {
                     LoginRecord record = loginRecords.get(i);
 
                     recordTable.addCell(new Phrase(String.valueOf(i + 1), font));
-                    recordTable.addCell(new Phrase(record.getUsername(), font));
+                    recordTable.addCell(new Phrase((loginRecord.equals(record) ? "*" : "") + record.getUsername(), font));
                     recordTable.addCell(new Phrase(record.getRole(), font));
                 }
 
@@ -121,6 +122,8 @@ public class ReportServlet extends HttpServlet {
                 recordTable.addCell(new Phrase("START OF TRAINING", font));
                 recordTable.addCell(new Phrase("END OF TRAINING", font));
 
+                int counter = 1;
+
                 for (int i = 0; i < studentRecords.size(); i++) {
                     StudentRecord record = studentRecords.get(i);
 
@@ -135,7 +138,7 @@ public class ReportServlet extends HttpServlet {
                         continue;
                     }
 
-                    recordTable.addCell(new Phrase(String.valueOf(i + 1), font));
+                    recordTable.addCell(new Phrase(String.valueOf(counter++), font));
                     recordTable.addCell(new Phrase(record.getUsername(), font));
                     recordTable.addCell(new Phrase(record.getTrainingName(), font));
                     recordTable.addCell(new Phrase(String.format("%d%%", record.getProgress()), font));
@@ -197,16 +200,24 @@ public class ReportServlet extends HttpServlet {
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(outputStream.toByteArray());
 
+            Date currentDate = new Date();
+            SimpleDateFormat nameDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+            SimpleDateFormat pdfDateFormat = new SimpleDateFormat("MM-dd-yyyy");
+
+            FileOutputStream fileOutputStream = new FileOutputStream(String.format("%sLIST_%s", loginRecord.getRole().toUpperCase(), nameDateFormat.format(currentDate)));
+
             PdfReader reader = new PdfReader(inputStream);
-            PdfStamper stamper = new PdfStamper(reader, response.getOutputStream());
+            PdfStamper stamper = new PdfStamper(reader, fileOutputStream);
 
             for (int i = 0; i < reader.getNumberOfPages(); i++) {
                 PdfContentByte overContent = stamper.getOverContent(i + 1);
                 overContent.setFontAndSize(BaseFont.createFont(BaseFont.HELVETICA_OBLIQUE, BaseFont.CP1257, BaseFont.EMBEDDED), 10);
+
                 overContent.beginText();
                 overContent.setTextMatrix(report.left(), report.bottom() - 10);
-                overContent.showText(String.format("Owner: %s", loginRecord.getUsername()));
+                overContent.showText(String.format("Owner: %s Date Generated: %s", loginRecord.getUsername(), pdfDateFormat.format(currentDate)));
                 overContent.endText();
+
                 overContent.beginText();
                 overContent.setTextMatrix(report.right() - 60, report.bottom() - 10);
                 overContent.showText(String.format("Page: %d of %d", i + 1, reader.getNumberOfPages()));
@@ -215,6 +226,7 @@ public class ReportServlet extends HttpServlet {
 
             stamper.close();
             reader.close();
+            fileOutputStream.close();
             outputStream.close();
             inputStream.close();
         } catch (Exception exception) {

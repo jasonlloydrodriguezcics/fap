@@ -125,13 +125,24 @@
                     }
                 }
             %>
+            <%
+                if (!loginRecord.getRole().equals("Guest")) {
+            %>
             <div class="report">
-                <form action="${pageContext.request.contextPath}/report" target="_blank">
+                <form action="${pageContext.request.contextPath}/report">
+                    <%                        if (loginRecord.getRole().equals("Trainor")) {
+                    %>
                     <input type="date" name="start-date" id="start-date">
                     <input type="date" name="end-date" id="end-date">
+                    <%
+                        }
+                    %>
                     <input type="submit" value="Generate PDF">
                 </form>
             </div>
+            <%
+                }
+            %>
         </main>
         <jsp:include page="/component/footer.jsp"/>
     </body>
