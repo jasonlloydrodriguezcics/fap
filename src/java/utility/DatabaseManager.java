@@ -20,11 +20,11 @@ public class DatabaseManager {
 
     private static final String GET_ALL_LOGIN_RECORDS = "SELECT * FROM USER_INFO";
     private static final String GET_LOGIN_RECORD = "SELECT * FROM USER_INFO WHERE USERNAME = ?";
-    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM STUDENTDETAILS";
-    private static final String GET_ALL_COURSES = "SELECT * FROM TRAININGDETAILS";
-    private static final String GET_COURSE_RECORD = "SELECT * FROM TRAININGDETAILS WHERE TRAINING = ?";
-    private static final String GET_STUDENT_RECORD = "SELECT * FROM STUDENTDETAILS WHERE USERNAME = ?";
     private static final String ENCRYPT_LOGIN_PASSWORD = "UPDATE USER_INFO SET PASSWORD = ?, IS_ENCRYPTED = TRUE WHERE USERNAME = ?";
+    private static final String GET_ALL_STUDENT_RECORDS = "SELECT * FROM StudentDetails";
+    private static final String GET_STUDENT_RECORD = "SELECT * FROM StudentDetails WHERE USERNAME = ?";
+    private static final String GET_ALL_COURSES = "SELECT * FROM TrainingDetails";
+    private static final String GET_COURSE_RECORD = "SELECT * FROM TrainingDetails WHERE TRAINING = ?";
 
     private static DatabaseManager instance;
     private Connection derbyConnection;

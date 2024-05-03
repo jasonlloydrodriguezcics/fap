@@ -70,7 +70,7 @@
                         </c:forEach>
                     </div>
                 </div>
-               <%
+                <%
                 } else if (user.getRole().equalsIgnoreCase("Admin")) {
 
                     ArrayList<record.LoginRecord> loginRecords = (ArrayList<record.LoginRecord>) request.getSession().getAttribute("loginRecord");
@@ -115,8 +115,8 @@
                         </c:forEach>
                     </div>
                 </div>
-                
-            <% } %>    
+
+                <% }%>    
             </div>
             <div class="report">
                 <form action="${pageContext.request.contextPath}/controller/GenerateReport" method="get" target="_blank">
