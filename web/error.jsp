@@ -6,7 +6,7 @@
         <title>Error - Active Learning</title>
     </head>
     <%
-        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setDateHeader("Expires", 0);
     %>
     <body>

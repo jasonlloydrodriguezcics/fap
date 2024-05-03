@@ -12,7 +12,7 @@
         <title>Details - Active Learning</title>
     </head>
     <%
-        response.setHeader("Cache-Control", "no-cache");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
         response.setDateHeader("Expires", 0);
     %>
     <body>
@@ -143,8 +143,8 @@
             %>
             <div class="report">
                 <form action="${pageContext.request.contextPath}/report" target="_blank">
-                    <input type="date">
-                    <input type="date">
+                    <input type="date" name="start-date" id="start-date">
+                    <input type="date" name="end-date" id="end-date">
                     <input type="submit" value="Generate PDF">
                 </form>
             </div>
