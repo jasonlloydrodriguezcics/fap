@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html class="h-full" lang="en">
+<html lang="en">
 
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -21,9 +21,9 @@
     %>
     <body class="flex flex-col h-screen">
         <jsp:include page="/component/header.jsp"/>
-        <div class="flex h-full w-full">
+        <div class="flex h-[calc(100vh-10rem)] w-full">
             <jsp:include page="/component/sidebar.jsp"/>
-            <main class="p-10 h-full w-full flex flex-col">
+            <main class="p-10 w-full flex flex-col">
                 <h1 class="text-4xl font-bold" >Welcome, ${name}!</h1>
             </main>
         </div>
