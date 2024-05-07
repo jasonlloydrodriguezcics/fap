@@ -31,6 +31,7 @@ public class StudentDetailServlet extends HttpServlet {
         } else if (record.getRole().equalsIgnoreCase("Student")) {
             StudentRecord studentRecord = DatabaseManager.getStudentRecord(context, record.getUsername());
             request.setAttribute("student-record", studentRecord);
+            System.out.println(studentRecord.getTrainingId());
             request.setAttribute("course-records", DatabaseManager.getCourseRecords(context, String.valueOf(studentRecord.getTrainingId())));
         } else if (record.getRole().equalsIgnoreCase("Admin")) {
             request.setAttribute("login-records", DatabaseManager.getAllLoginRecords(context));

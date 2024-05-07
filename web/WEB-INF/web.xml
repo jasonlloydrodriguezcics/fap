@@ -69,7 +69,7 @@
         <servlet-class>app.CaptchaServlet</servlet-class>
         <init-param>
             <param-name>length</param-name>
-            <param-value>1</param-value>
+            <param-value>5</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
@@ -126,6 +126,10 @@
     </error-page>
     <error-page>
         <exception-type>exception.NullValueException</exception-type>
+        <location>/error.jsp</location>
+    </error-page>
+    <error-page>
+        <exception-type>exception.InvalidDateException</exception-type>
         <location>/error.jsp</location>
     </error-page>
 </web-app>

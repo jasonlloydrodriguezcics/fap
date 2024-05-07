@@ -29,7 +29,7 @@
         <jsp:include page="/component/header.jsp"/>
         <div class="flex h-[calc(100vh-10rem)] w-full">
             <jsp:include page="/component/sidebar.jsp"/>
-            <main class="p-10 w-full flex flex-col overflow-y-scroll">
+            <main class="gap-5 p-10 w-full flex flex-col overflow-y-scroll">
 
                 <%
                     LoginRecord loginRecord = (LoginRecord) session.getAttribute("current-login");
@@ -40,13 +40,13 @@
                         if (loginRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Username</th>
                             <th>Role</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (LoginRecord record : (ArrayList<LoginRecord>) loginRecords) {
                         %>
@@ -67,7 +67,7 @@
                     if (studentRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Student ID</th>
                             <th>Username</th>
@@ -76,7 +76,7 @@
                             <th>Training End</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
                         %>
@@ -100,14 +100,14 @@
                     if (trainingRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Training ID</th>
                             <th>Training</th>
                             <th>Trainor</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (TrainingRecord record : (ArrayList<TrainingRecord>) trainingRecords) {
                         %>
@@ -129,7 +129,7 @@
                     if (studentRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Student ID</th>
                             <th>Username</th>
@@ -138,7 +138,7 @@
                             <th>Training End</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (StudentRecord record : (ArrayList<StudentRecord>) studentRecords) {
                         %>
@@ -162,14 +162,14 @@
                     if (trainingRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Training ID</th>
                             <th>Training</th>
                             <th>Trainor</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (TrainingRecord record : (ArrayList<TrainingRecord>) trainingRecords) {
                         %>
@@ -191,7 +191,7 @@
                     if (studentRecord != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Student ID</th>
                             <th>Username</th>
@@ -200,7 +200,7 @@
                             <th>Training End</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <tr>
                             <td><%=studentRecord.getId()%></td>
                             <td><%=studentRecord.getUsername()%></td>
@@ -218,21 +218,21 @@
                     if (courseRecords != null) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Course ID</th>
                             <th>Course</th>
                             <th>Description</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <%
                             for (CourseRecord record : (ArrayList<CourseRecord>) courseRecords) {
                         %>
                         <tr class="course-record">
-                            <td>Course ID: <%=record.getId()%></td>
-                            <td>Course: <%=record.getName()%></td>
-                            <td>Description: <%=record.getDescription()%></td>
+                            <td><%=record.getId()%></td>
+                            <td><%=record.getName()%></td>
+                            <td><%=record.getDescription()%></td>
                         </tr>
                         <%
                             }
@@ -244,14 +244,14 @@
                 } else if (loginRecord.getRole().equals("Guest")) {
                 %>
                 <table class="w-8/12 text-sm text-center text-gray-500 self-center">
-                    <thead class="text-gray-50 uppercase bg-gray-700">
+                    <thead class="text-lg text-gray-50 uppercase bg-amber-600">
                         <tr>
                             <th>Username</th>
                             <th>Password</th>
                             <th>Role</th>
                         </tr>
                     </thead>
-                    <tbody class="bg-gray-800 border-b">
+                    <tbody class="text-lg bg-stone-100 border-b">
                         <tr>
                             <td><%=loginRecord.getUsername()%></td>
                             <td><%=Cryptographer.decrypt(config.getServletContext(), loginRecord.getPassword())%></td>
